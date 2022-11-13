@@ -23,21 +23,21 @@ namespace project_management_app_api.Controllers
         }
 
         [HttpGet("GetIssues")]
-        public ActionResult<List<Issue>> GetIssues()
+        public async Task<ActionResult<ServiceResponse<List<Issue>>>> GetIssues()
         {
-            return Ok(_issueService.GetIssues());
+            return Ok(await _issueService.GetIssues());
         }
 
         [HttpGet("GetIssueById/{id}")]
-        public ActionResult<Issue> GetIssueById(int id)
+        public async Task<ActionResult<ServiceResponse<Issue>>> GetIssueById(int id)
         {
-            return Ok(_issueService.GetIssueById(id));
+            return Ok(await _issueService.GetIssueById(id));
         }
 
         [HttpPost("AddIssue")]
-        public ActionResult<List<Issue>> AddIssue(Issue issue)
+        public async Task<ActionResult<ServiceResponse<List<Issue>>>> AddIssue(Issue issue)
         {
-            return Ok(_issueService.AddIssue(issue));
+            return Ok(await _issueService.AddIssue(issue));
         }
 
         //[HttpPut("EditIssue/{id}")]
@@ -56,7 +56,7 @@ namespace project_management_app_api.Controllers
         //}
 
         [HttpDelete("DeleteIssue/{id}")]
-        public ActionResult<List<Issue>> DeleteIssue(int id)
+        public async Task<ActionResult<ServiceResponse<List<Issue>>>> DeleteIssue(int id)
         {            
             return Ok(_issueService.DeleteIssue(id));
         }

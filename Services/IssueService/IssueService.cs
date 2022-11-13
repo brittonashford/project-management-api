@@ -24,26 +24,32 @@ namespace project_management_api.Services.IssueService
             }
         };
 
-        public List<Issue> AddIssue(Issue issue)
+        public async Task<ServiceResponse<List<Issue>>> AddIssue(Issue issue)
         {
+            var serviceResponse = new ServiceResponse<List<Issue>>();
             issues.Add(issue);
-            return issues;
+            serviceResponse.Data = issues;
+            return serviceResponse;
         }
 
-        public List<Issue> DeleteIssue(int id)
+        public async Task<ServiceResponse<List<Issue>>> DeleteIssue(int id)
         {
+            var serviceResponse = new ServiceResponse<List<Issue>>();
             issues.Remove(issues.FirstOrDefault(i => i.IssueId == id));
-            return issues;
+            serviceResponse.Data = issues;
+            return serviceResponse;
         }
 
-        public Issue GetIssueById(int id)
+        public async Task<ServiceResponse<Issue>> GetIssueById(int id)
         {
-            return issues.FirstOrDefault(i => i.IssueId == id);
+            var serviceResponse = new ServiceResponse<Issue>();
+            serviceResponse.Data = issues.FirstOrDefault(i => i.IssueId == id);
+            return serviceResponse;
         }
 
-        public List<Issue> GetIssues()
+        public async Task<ServiceResponse<List<Issue>>> GetIssues()
         {
-            return issues;
+            return new ServiceResponse<List<Issue>> { Data = issues };
         }
 
  
