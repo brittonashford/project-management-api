@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using project_management_app_api.Models;
 using project_management_api.Services.IssueService;
+using project_management_api.DTOs.Issue;
 
 namespace project_management_app_api.Controllers
 {
@@ -23,19 +24,19 @@ namespace project_management_app_api.Controllers
         }
 
         [HttpGet("GetIssues")]
-        public async Task<ActionResult<ServiceResponse<List<Issue>>>> GetIssues()
+        public async Task<ActionResult<ServiceResponse<List<GetIssueDTO>>>> GetIssues()
         {
             return Ok(await _issueService.GetIssues());
         }
 
         [HttpGet("GetIssueById/{id}")]
-        public async Task<ActionResult<ServiceResponse<Issue>>> GetIssueById(int id)
+        public async Task<ActionResult<ServiceResponse<GetIssueDTO>>> GetIssueById(int id)
         {
             return Ok(await _issueService.GetIssueById(id));
         }
 
         [HttpPost("AddIssue")]
-        public async Task<ActionResult<ServiceResponse<List<Issue>>>> AddIssue(Issue issue)
+        public async Task<ActionResult<ServiceResponse<List<GetIssueDTO>>>> AddIssue(AddIssueDTO issue)
         {
             return Ok(await _issueService.AddIssue(issue));
         }

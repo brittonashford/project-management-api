@@ -1,4 +1,6 @@
-﻿using project_management_api.Models;
+﻿using AutoMapper;
+using project_management_api.DTOs.Issue;
+using project_management_api.Models;
 
 namespace project_management_api.Services.IssueService
 {
@@ -24,32 +26,42 @@ namespace project_management_api.Services.IssueService
             }
         };
 
-        public async Task<ServiceResponse<List<Issue>>> AddIssue(Issue issue)
+        private readonly IMapper _mapper;
+
+        public IssueService(IMapper mapper)
         {
-            var serviceResponse = new ServiceResponse<List<Issue>>();
-            issues.Add(issue);
-            serviceResponse.Data = issues;
+            _mapper = mapper;
+        }
+
+        public async Task<ServiceResponse<List<GetIssueDTO>>> AddIssue(AddIssueDTO issue)
+        {
+            var serviceResponse = new ServiceResponse<List<GetIssueDTO>>();
+            issues.Add(_mapper.Map<Issue>(issue));
+            serviceResponse.Data = issues.Select(i => _mapper.Map<GetIssueDTO>(i)).ToList();
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Issue>>> DeleteIssue(int id)
+        public async Task<ServiceResponse<List<GetIssueDTO>>> DeleteIssue(int id)
         {
-            var serviceResponse = new ServiceResponse<List<Issue>>();
+            var serviceResponse = new ServiceResponse<List<GetIssueDTO>>();
             issues.Remove(issues.FirstOrDefault(i => i.IssueId == id));
-            serviceResponse.Data = issues;
+            serviceResponse.Data = issues.Select(i => _mapper.Map<GetIssueDTO>(i)).ToList();
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<Issue>> GetIssueById(int id)
+        public async Task<ServiceResponse<GetIssueDTO>> GetIssueById(int id)
         {
-            var serviceResponse = new ServiceResponse<Issue>();
-            serviceResponse.Data = issues.FirstOrDefault(i => i.IssueId == id);
+            var serviceResponse = new ServiceResponse<GetIssueDTO>();
+            var issue = issues.FirstOrDefault(i => i.IssueId == id);
+            serviceResponse.Data = _mapper.Map<GetIssueDTO>(issue);      
+
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Issue>>> GetIssues()
+        public async Task<ServiceResponse<List<GetIssueDTO>>> GetIssues()
         {
-            return new ServiceResponse<List<Issue>> { Data = issues };
+            return new ServiceResponse<List<GetIssueDTO>> 
+                { Data = issues.Select(i => _mapper.Map<GetIssueDTO>(i)).ToList() };
         }
 
  

@@ -1,13 +1,14 @@
-﻿using project_management_api.Models;
+﻿using project_management_api.DTOs.Issue;
+using project_management_api.Models;
 
 namespace project_management_api.Services.IssueService
 {
     public interface IIssueService
     {
-        Task<ServiceResponse<List<Issue>>> GetIssues();
-        Task<ServiceResponse<Issue>> GetIssueById(int id);
-        Task<ServiceResponse<List<Issue>>> AddIssue(Issue issue);
+        Task<ServiceResponse<List<GetIssueDTO>>> GetIssues();
+        Task<ServiceResponse<GetIssueDTO>> GetIssueById(int id);
+        Task<ServiceResponse<List<GetIssueDTO>>> AddIssue(AddIssueDTO issue);
         //Task<List<Issue>> EditIssue(Issue issue);
-        Task<ServiceResponse<List<Issue>>> DeleteIssue(int id);
+        Task<ServiceResponse<List<GetIssueDTO>>> DeleteIssue(int id);
     }
 }
