@@ -36,30 +36,35 @@ namespace project_management_app_api.Controllers
         }
 
         [HttpPost("AddIssue")]
-        public async Task<ActionResult<ServiceResponse<List<GetIssueDTO>>>> AddIssue(AddIssueDTO issue)
+        public async Task<ActionResult<ServiceResponse<List<GetIssueDTO>>>> AddIssue(AddIssueDTO newIssue)
         {
-            return Ok(await _issueService.AddIssue(issue));
+            return Ok(await _issueService.AddIssue(newIssue));
         }
 
-        //[HttpPut("EditIssue/{id}")]
-        //public ActionResult<Issue> EditIssue(Issue issue)
-        //{
+        [HttpPut("UpdateIssue/{id}")]
+        public async Task<ActionResult<ServiceResponse<GetIssueDTO>>> UpdateIssue(UpdateIssueDTO updatedIssue)
+        {
+            var response = await _issueService.UpdateIssue(updatedIssue);   
 
-        //    var issueToEdit = issues.FirstOrDefault(i => i.IssueId == issue.IssueId);
-        //    issueToEdit.IssueId = issue.IssueId;
-        //    issueToEdit.Title = issue.Title;    
-        //    issueToEdit.Type = issue.Type;  
-        //    issueToEdit.Priority = issue.Priority;
-        //    issueToEdit.Status = issue.Status;
-        //    issueToEdit.Description = issue.Description;    
+            if(response.Data == null)
+            {
+                return NotFound(response);
+            }
 
-        //    return Ok(issueToEdit);
-        //}
+            return Ok(response);
+        }
 
         [HttpDelete("DeleteIssue/{id}")]
-        public async Task<ActionResult<ServiceResponse<List<Issue>>>> DeleteIssue(int id)
-        {            
-            return Ok(_issueService.DeleteIssue(id));
+        public async Task<ActionResult<ServiceResponse<List<GetIssueDTO>>>> DeleteIssue(int id)
+        {
+            var response = await _issueService.DeleteIssue(id);
+
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
         }
     }
 }

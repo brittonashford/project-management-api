@@ -8,6 +8,8 @@ namespace project_management_api
         public AutoMapperProfile()
         {
             CreateMap<Issue, GetIssueDTO>();
+            CreateMap<AddIssueDTO, Issue>();
+            CreateMap<UpdateIssueDTO, Issue>();
         }
     }
 }
