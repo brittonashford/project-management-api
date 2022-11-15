@@ -1,10 +1,13 @@
 global using project_management_app_api.Models;
+using Microsoft.EntityFrameworkCore;
+using project_management_api.Data;
 using project_management_api.Services.IssueService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
