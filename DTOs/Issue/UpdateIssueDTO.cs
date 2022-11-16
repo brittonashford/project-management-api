@@ -4,6 +4,7 @@ namespace project_management_api.DTOs.Issue
 {
     public class UpdateIssueDTO
     {
+        //TODO: update this so IssueID is read only
         public int IssueId { get; set; }
         public string Title { get; set; } = string.Empty;
         public IssueType Type { get; set; }
