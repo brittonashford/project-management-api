@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using project_management_api.Models;
 
 namespace project_management_api.Data
 {
@@ -9,6 +10,7 @@ namespace project_management_api.Data
         }
 
         public DbSet<Issue> Issues { get; set; }
+        public DbSet<User> Users { get; set; }
 
     }
 }
