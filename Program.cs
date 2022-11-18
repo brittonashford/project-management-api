@@ -1,6 +1,7 @@
 global using project_management_app_api.Models;
 using Microsoft.EntityFrameworkCore;
 using project_management_api.Data;
+using project_management_api.Repository;
 using project_management_api.Services.IssueService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +13,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IIssueService, IssueService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddScoped<IIssueService, IssueService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 var app = builder.Build();
 
