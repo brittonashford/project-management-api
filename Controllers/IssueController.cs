@@ -9,9 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using project_management_app_api.Models;
 using project_management_api.Services.IssueService;
 using project_management_api.DTOs.Issue;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace project_management_app_api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class IssueController : ControllerBase
@@ -27,6 +30,13 @@ namespace project_management_app_api.Controllers
         public async Task<ActionResult<ServiceResponse<List<GetIssueDTO>>>> GetIssues()
         {
             return Ok(await _issueService.GetIssues());
+        }
+
+        [HttpGet("GetUserIssues")]
+        public async Task<ActionResult<ServiceResponse<List<GetIssueDTO>>>> GetUserIssues()
+        {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            return Ok(await _issueService.GetUserIssues(userId));
         }
 
         [HttpGet("GetIssueById/{id}")]

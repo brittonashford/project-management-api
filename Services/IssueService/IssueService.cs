@@ -33,13 +33,13 @@ namespace project_management_api.Services.IssueService
             return response;
         }
 
-        public async Task<ServiceResponse<List<GetIssueDTO>>> DeleteIssue(int id)
+        public async Task<ServiceResponse<List<GetIssueDTO>>> DeleteIssue(int issueId)
         {
             var response = new ServiceResponse<List<GetIssueDTO>>();
 
             try
             {
-                Issue issue = await _dataContext.Issues.FirstAsync(i => i.IssueId == id);
+                Issue issue = await _dataContext.Issues.FirstAsync(i => i.IssueId == issueId);
                 _dataContext.Issues.Remove(issue);
                 await _dataContext.SaveChangesAsync();  
 
@@ -55,10 +55,10 @@ namespace project_management_api.Services.IssueService
             return response;
         }
 
-        public async Task<ServiceResponse<GetIssueDTO>> GetIssueById(int id)
+        public async Task<ServiceResponse<GetIssueDTO>> GetIssueById(int issueId)
         {
             var response = new ServiceResponse<GetIssueDTO>();
-            var issue = await _dataContext.Issues.FirstOrDefaultAsync(i => i.IssueId == id);
+            var issue = await _dataContext.Issues.FirstOrDefaultAsync(i => i.IssueId == issueId);
             response.Data = _mapper.Map<GetIssueDTO>(issue);      
 
             return response;
@@ -71,7 +71,18 @@ namespace project_management_api.Services.IssueService
             response.Data = issues.Select(i => _mapper.Map<GetIssueDTO>(i)).ToList();
 
             return response;
+        }
 
+        public async Task<ServiceResponse<List<GetIssueDTO>>> GetUserIssues(int userId)
+        {
+            var response = new ServiceResponse<List<GetIssueDTO>>();
+            var issues = await _dataContext.Issues
+                .Where(i => i.User.UserId == userId)
+                .ToListAsync();
+
+            response.Data = issues.Select(i => _mapper.Map<GetIssueDTO>(i)).ToList();
+
+            return response;
         }
 
         public async Task<ServiceResponse<GetIssueDTO>> UpdateIssue(UpdateIssueDTO updatedIssue)
